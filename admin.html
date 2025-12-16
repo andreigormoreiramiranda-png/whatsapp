@@ -231,36 +231,61 @@
             max-width: 65%;
             padding: 8px 12px;
             border-radius: 8px;
-            font-size: 14px;
-            line-height: 1.4;
+            font-size: 14.2px;
+            line-height: 19px;
+            color: #111b21;
+            position: relative;
+            word-wrap: break-word;
+            /* Fix text overflow */
+            white-space: pre-wrap;
+            /* Preserve line breaks */
+            box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+            margin-bottom: 2px;
         }
 
         .admin-message.received {
             align-self: flex-start;
-            background-color: var(--bg-received);
+            background-color: #202c33;
+            /* Dark mode received */
+            color: #e9edef;
             border-top-left-radius: 0;
         }
 
         .admin-message.sent {
             align-self: flex-end;
-            background-color: var(--bg-sent);
+            background-color: #005c4b;
+            /* Dark mode sent */
+            color: #e9edef;
             border-top-right-radius: 0;
         }
 
         .admin-message .time {
             font-size: 11px;
             color: rgba(255, 255, 255, 0.6);
+            float: right;
+            margin-left: 10px;
             margin-top: 4px;
-            text-align: right;
+            position: relative;
+            top: 2px;
+        }
+
+        /* Clear fix for float */
+        .admin-message::after {
+            content: "";
+            display: table;
+            clear: both;
         }
 
         .admin-message.system {
             align-self: center;
             background-color: rgba(0, 168, 132, 0.2);
             color: var(--text-green);
-            font-size: 12px;
+            font-size: 12.5px;
             padding: 6px 12px;
-            border-radius: 6px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 90%;
+            box-shadow: none;
         }
 
         /* ===== ADMIN INPUT ===== */
