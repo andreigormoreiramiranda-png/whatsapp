@@ -877,11 +877,11 @@ body {
     }
 
     .message-content p {
-        font-size: 13px;
+        font-size: 15px;
     }
 
     .message-time {
-        font-size: 9px;
+        font-size: 11px;
     }
 
     .quick-responses {
@@ -890,9 +890,9 @@ body {
     }
 
     .quick-response-btn {
-        padding: 6px 10px;
-        font-size: 12px;
-        border-radius: 14px;
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 16px;
     }
 
     .audio-message {
@@ -986,8 +986,8 @@ body {
     }
 
     .message-input {
-        padding: 8px 10px;
-        font-size: 14px;
+        padding: 10px 12px;
+        font-size: 16px;
     }
 
     .typing-indicator {
@@ -1031,8 +1031,8 @@ body {
     }
 
     .lead-submit-btn {
-        padding: 12px;
-        font-size: 14px;
+        padding: 14px;
+        font-size: 16px;
     }
 }
 
@@ -1043,7 +1043,7 @@ body {
     }
 
     .message-content p {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .quick-response-btn {
