@@ -484,9 +484,10 @@ class WhatsAppChat {
     createPixInfoMessage(time) {
         return `
             <div class="message-content">
-                <p>Chave pix (CNPJ) : ${MESSAGES_CONFIG.pixCNPJ}<br>
-Chave pix (EMAIL) : <a href="mailto:${MESSAGES_CONFIG.pixEmail}">${MESSAGES_CONFIG.pixEmail}</a><br>
+                <p>Chave pix (CPF) : ${MESSAGES_CONFIG.pixCPF}<br>
+<br>
 Valor: ${MESSAGES_CONFIG.valor}<br>
+<br>
 * Nome: ${MESSAGES_CONFIG.pixNome} *</p>
                 <span class="message-time">${time}</span>
             </div>
@@ -494,8 +495,8 @@ Valor: ${MESSAGES_CONFIG.valor}<br>
     }
 
     createPixCopyMessage(messageData, time) {
-        const pixValue = messageData.pixType === 'cnpj'
-            ? MESSAGES_CONFIG.pixCNPJ
+        const pixValue = messageData.pixType === 'cpf'
+            ? MESSAGES_CONFIG.pixCPF
             : MESSAGES_CONFIG.pixEmail;
 
         return `
