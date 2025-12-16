@@ -164,25 +164,38 @@ class WhatsAppChat {
     }
 
     loadMessages() {
-        // Carregar histórico se existir
+        // Carregar estado da fase
+        db.ref('conversations/' + this.conversationId + '/phase').once('value', (snapshot) => {
+            if (snapshot.val() === 2) {
+                this.phase2Started = true;
+                // Esconder botões se a fase já começou
+                this.quickResponses.style.display = 'none';
+            }
+        });
+
+        // Carregar histórico
         db.ref('conversations/' + this.conversationId + '/messages')
             .once('value', (snapshot) => {
                 const messages = snapshot.val();
                 if (messages) {
                     Object.values(messages).forEach(msg => {
                         if (msg.from === 'user') {
-                            this.addUserMessage(msg.text, false); // false = sem animação/save
-                        } else if (msg.from === 'bot' || msg.from === 'admin') {
-                            // Reconstruir mensagem baseado no tipo
-                            if (msg.from === 'admin') {
-                                this.displayAdminMessage(msg.text, false);
-                            } else {
-                                // msg.additionalData conteria info do tipo, mas simplificamos
-                                // Para recarregar perfeito precisaria salvar estrutura completa
-                                // Por enquanto, foca no chat em tempo real
-                            }
+                            this.addUserMessage(msg.text, false);
+                        } else if (msg.from === 'admin') {
+                            this.displayAdminMessage(msg.text, false);
+                        } else if (msg.from === 'bot') {
+                            // Reconstruir mensagem do bot
+                            const reconstructedMsg = {
+                                type: msg.type,
+                                // Mapear 'text' do firebase de volta para 'content' que o addMessage espera
+                                content: msg.text,
+                                ...msg // Espalhar outras propriedades (audioKey, pdfIndex, etc)
+                            };
+                            this.addMessage(reconstructedMsg, false);
                         }
                     });
+
+                    this.scrollToBottom();
                     this.listenForNewMessages();
                 }
             });
@@ -250,6 +263,13 @@ class WhatsAppChat {
     async playPhase2() {
         if (this.phase2Started) return;
         this.phase2Started = true;
+
+        // Salvar estado no Firebase
+        if (this.conversationId) {
+            db.ref('conversations/' + this.conversationId).update({
+                phase: 2
+            });
+        }
 
         // Esconder botões de resposta
         this.quickResponses.innerHTML = '';
@@ -350,7 +370,7 @@ class WhatsAppChat {
         this.messagesContainer.appendChild(messageDiv);
     }
 
-    addMessage(messageData) {
+    addMessage(messageData, saveToDb = true) {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message received fade-in';
 
@@ -384,12 +404,12 @@ class WhatsAppChat {
                 break;
 
             case 'pix':
-                msgText = `💳 PIX: ${MESSAGES_CONFIG.pixCNPJ}`;
+                msgText = `💳 PIX: ${MESSAGES_CONFIG.pixCPF}`;
                 messageDiv.innerHTML = this.createPixInfoMessage(time);
                 break;
 
             case 'pix-copy':
-                const pixVal = messageData.pixType === 'cnpj' ? MESSAGES_CONFIG.pixCNPJ : MESSAGES_CONFIG.pixEmail;
+                const pixVal = messageData.pixType === 'cpf' ? MESSAGES_CONFIG.pixCPF : MESSAGES_CONFIG.pixEmail;
                 msgText = pixVal;
                 messageDiv.innerHTML = this.createPixCopyMessage(messageData, time);
                 additionalData = { pixType: messageData.pixType };
@@ -399,7 +419,7 @@ class WhatsAppChat {
         this.messagesContainer.appendChild(messageDiv);
 
         // Salvar mensagem do BOT no Firebase
-        if (msgText) {
+        if (msgText && saveToDb) {
             this.saveMessage('bot', msgText, msgType, additionalData);
         }
 
