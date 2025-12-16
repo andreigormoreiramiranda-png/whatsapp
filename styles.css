@@ -23,18 +23,25 @@
     --unread-text: #00a884;
 }
 
+/* Main layout fixes for mobile */
 html,
 body {
     height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
+    /* Prevent body scroll */
+    position: fixed;
+    /* Lock body for iOS */
+    touch-action: none;
+    /* Disable default touch actions on body */
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,10 +50,10 @@ body {
 /* ===== MAIN CONTAINER ===== */
 .whatsapp-container {
     width: 100%;
-    max-width: 900px;
-    height: 100vh;
-    height: 100dvh;
-    /* Dynamic viewport height for mobile */
+    max-width: 100%;
+    /* Ensure it never exceeds viewport */
+    height: 100%;
+    /* Use 100% instead of vh for fixed body */
     display: flex;
     flex-direction: column;
     background-color: var(--bg-chat);
@@ -624,9 +631,14 @@ body {
     align-items: center;
     gap: 6px;
     padding: 8px 10px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    /* iOS Safe Area */
     background-color: var(--bg-footer);
     border-top: 1px solid var(--border-color);
     flex-shrink: 0;
+    position: relative;
+    z-index: 100;
+    /* Ensure it stays on top */
 }
 
 .footer-btn {
@@ -667,6 +679,11 @@ body {
     color: var(--text-primary);
     font-size: 15px;
     outline: none;
+    -webkit-appearance: none;
+    /* Remove iOS default styles */
+    appearance: none;
+    touch-action: manipulation;
+    /* Improve touch response */
 }
 
 .message-input::placeholder {
@@ -809,6 +826,17 @@ body {
     fill: currentColor;
     width: 18px;
     height: 18px;
+}
+
+/* ===== RESPONSIVE - DESKTOP ===== */
+@media (min-width: 769px) {
+    .whatsapp-container {
+        max-width: 900px;
+        height: 95vh;
+        /* A bit of margin on desktop */
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
 }
 
 /* ===== RESPONSIVE - TABLETS ===== */
