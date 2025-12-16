@@ -7,7 +7,8 @@ const firebaseConfig = {
     projectId: "zapvendas-b4124",
     storageBucket: "zapvendas-b4124.firebasestorage.app",
     messagingSenderId: "582396117606",
-    appId: "1:582396117606:web:0e7b0d471f7ac83dbaa3a7"
+    appId: "1:582396117606:web:0e7b0d471f7ac83dbaa3a7",
+    databaseURL: "https://zapvendas-b4124-default-rtdb.firebaseio.com/"
 };
 
 // Inicializar Firebase
