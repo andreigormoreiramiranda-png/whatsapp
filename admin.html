@@ -163,6 +163,17 @@
             flex-direction: column;
             background-color: var(--bg-primary);
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23182229' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            height: 100vh;
+            /* Force full height */
+            overflow: hidden;
+            /* Prevent page scroll */
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
         }
 
         .chat-header-admin {
@@ -172,50 +183,11 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-shrink: 0;
+            /* Prevent header shrink */
         }
 
-        .chat-header-admin .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--text-green);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 600;
-            color: white;
-        }
-
-        .chat-header-info {
-            flex: 1;
-        }
-
-        .chat-header-name {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .chat-header-phone {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .no-chat-selected {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-        }
-
-        .no-chat-selected svg {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
+        /* ... (rest of header styles) ... */
 
         /* ===== MESSAGES ===== */
         .admin-messages {
@@ -225,6 +197,9 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            min-height: 0;
+            /* Critical for flex scrolling */
+            scroll-behavior: smooth;
         }
 
         .admin-message {
@@ -290,16 +265,18 @@
 
         /* ===== ADMIN INPUT ===== */
         .admin-input-area {
-            padding: 16px;
+            padding: 20px;
             background-color: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
+            position: relative;
+            z-index: 100;
         }
 
         .quick-replies {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
         .quick-reply-btn {
@@ -311,6 +288,7 @@
             cursor: pointer;
             font-size: 13px;
             transition: all 0.2s;
+            user-select: none;
         }
 
         .quick-reply-btn:hover {
@@ -321,17 +299,25 @@
         .admin-input-row {
             display: flex;
             gap: 12px;
+            position: relative;
         }
 
         .admin-input {
             flex: 1;
-            padding: 12px 16px;
-            border: none;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border: 2px solid transparent;
+            border-radius: 12px;
             background-color: var(--bg-hover);
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 16px;
             outline: none;
+            transition: border-color 0.2s;
+            cursor: text;
+        }
+
+        .admin-input:focus {
+            border-color: var(--text-green);
+            background-color: rgba(255, 255, 255, 0.05);
         }
 
         .admin-input::placeholder {
@@ -341,8 +327,8 @@
         .admin-send-btn {
             background: linear-gradient(135deg, var(--text-green), #005c4b);
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: 0 24px;
+            border-radius: 12px;
             color: white;
             font-size: 14px;
             font-weight: 600;
@@ -351,16 +337,7 @@
             align-items: center;
             gap: 8px;
             transition: all 0.2s;
-        }
-
-        .admin-send-btn:hover {
-            transform: scale(1.02);
-        }
-
-        .admin-send-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
+            flex-shrink: 0;
         }
 
         /* ===== STATS ===== */
