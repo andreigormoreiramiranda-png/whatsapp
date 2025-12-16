@@ -20,7 +20,7 @@ const MESSAGES_CONFIG = {
     pixEmail: "",
 
     // Nome do titular PIX
-    pixNome: "Andre Igor Moreira Miranda",
+    pixNome: "Andre Igor Moreira Miranda (PIX do meu Marido)",
 
     // Valor
     valor: "10,00"
@@ -33,22 +33,22 @@ const PDF_FILES = [
     {
         name: "Frente e verso para o potinho.pdf",
         size: "1,4 MB",
-        file: "pdfs/frente-verso-potinho.pdf"
+        file: "pdfs/pdf1.pdf"
     },
     {
         name: "365 Versiculos Biblicos.pdf",
         size: "2,7 MB",
-        file: "pdfs/365-versiculos-biblicos.pdf"
+        file: "pdfs/pdf2.pdf"
     },
     {
         name: "VERSICULOS COLORIDOS.pdf",
         size: "3,4 MB",
-        file: "pdfs/versiculos-coloridos.pdf"
+        file: "pdfs/pdf3.pdf"
     },
     {
         name: "Caixinha-de-Promessas.pdf",
         size: "135 KB",
-        file: "pdfs/caixinha-de-promessas.pdf"
+        file: "pdfs/pdf4.pdf"
     }
 ];
 
