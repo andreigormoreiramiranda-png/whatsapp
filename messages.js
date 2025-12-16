@@ -61,7 +61,7 @@ const AUDIO_FILES = {
         duration: "0:58"
     },
     audio2: {
-        file: "audios/audio%202.mp3",
+        file: "audios/audio2.mp3",
         duration: "0:39"
     }
 };
