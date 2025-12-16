@@ -29,6 +29,7 @@ class WhatsAppChat {
         this.quickResponses = document.getElementById('quickResponses');
 
         this.audioElements = {};
+        this.audioCache = {}; // Cache para áudios desbloqueados
         this.leadData = null;
         this.conversationId = null;
         this.currentPhase = 1;
@@ -73,6 +74,10 @@ class WhatsAppChat {
 
     handleLeadSubmit(e) {
         e.preventDefault();
+
+        // DESBLOQUEIO DE ÁUDIO IOS
+        // Toca e pausa todos os áudios silenciados para liberar o autoplay depois
+        this.preloadAudios();
 
         const name = document.getElementById('leadName').value.trim();
 
@@ -535,6 +540,34 @@ Valor: ${MESSAGES_CONFIG.valor}<br>
         `;
     }
 
+    preloadAudios() {
+        if (typeof AUDIO_FILES === 'undefined') return;
+
+        Object.keys(AUDIO_FILES).forEach(key => {
+            const audioPath = AUDIO_FILES[key].file;
+            const audio = new Audio(audioPath);
+
+            // Configurar para iOS: muted e play() imediato
+            audio.muted = true;
+            audio.volume = 0;
+
+            // Tentar tocar e pausar imediatamente para "desbloquear" o AudioContext
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    audio.pause();
+                    audio.muted = false; // Desmutar para uso futuro
+                    audio.currentTime = 0;
+                    this.audioCache[key] = audio;
+                    console.log(`Audio ${key} unlocked for iOS`);
+                }).catch(error => {
+                    console.log(`Failed to unlock audio ${key}:`, error);
+                });
+            }
+        });
+    }
+
     initAudioPlayer(messageDiv, messageData) {
         const playBtn = messageDiv.querySelector('.audio-play-btn');
         const playIcon = messageDiv.querySelector('.play-icon');
@@ -543,7 +576,15 @@ Valor: ${MESSAGES_CONFIG.valor}<br>
         const audioKey = messageData.audioKey;
 
         const audioInfo = AUDIO_FILES[audioKey];
-        const audio = new Audio(audioInfo.file);
+
+        // Usar áudio do cache se existir (já desbloqueado) ou criar novo
+        let audio;
+        if (this.audioCache[audioKey]) {
+            audio = this.audioCache[audioKey];
+        } else {
+            audio = new Audio(audioInfo.file);
+        }
+
         this.audioElements[audioKey] = {
             audio: audio,
             waveformBars: waveformBars,
