@@ -16,11 +16,10 @@ const MESSAGES_CONFIG = {
     delayPerChar: 50,  // 50ms por caractere
 
     // Chaves PIX para copiar
-    pixCNPJ: "59.522.534/0001-20",
-    pixEmail: "faq@gsaraiva.digital",
+    pixCNPJ: "146.624.329-52",
 
     // Nome do titular PIX
-    pixNome: "Gabriel Barbosa Saraiva (PIX do meu Marido)",
+    pixNome: "Andre Igor Moreira Miranda (PIX do meu Marido)",
 
     // Valor
     valor: "10,00"
@@ -206,3 +205,4 @@ const WAVEFORM_DATA = [
     60, 45, 80, 30, 55, 70, 40, 65, 50, 35,
     75, 45, 60, 30, 55, 40, 70, 50, 65, 45
 ];
+
