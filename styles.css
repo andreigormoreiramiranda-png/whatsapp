@@ -668,22 +668,29 @@ body {
 .message-input-container {
     flex: 1;
     min-width: 0;
+    position: relative;
+    display: flex;
+    z-index: 101;
+    /* Ensure touches register */
 }
 
 .message-input {
     width: 100%;
-    padding: 10px 12px;
+    padding: 12px 14px;
+    /* Big touch target */
+    min-height: 44px;
+    /* Apple Human Interface min-height */
     border: none;
-    border-radius: 8px;
+    border-radius: 20px;
+    /* More rounded */
     background-color: #2a3942;
     color: var(--text-primary);
-    font-size: 15px;
+    font-size: 16px;
+    /* Prevents zoom on focus */
     outline: none;
     -webkit-appearance: none;
-    /* Remove iOS default styles */
     appearance: none;
     touch-action: manipulation;
-    /* Improve touch response */
 }
 
 .message-input::placeholder {
