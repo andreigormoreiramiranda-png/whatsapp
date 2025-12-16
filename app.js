@@ -56,11 +56,6 @@ class WhatsAppChat {
         this.messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.handleUserMessage();
         });
-
-        // Limpar título da aba quando usuário focar
-        window.addEventListener('focus', () => {
-            document.title = 'WhatsApp Web';
-        });
     }
 
     updateHeader() {
@@ -230,7 +225,6 @@ class WhatsAppChat {
         return Math.min(baseDelay + charDelay, 6000); // Máximo 6 segundos
     }
 
-
     async playPhase1() {
         for (let i = 0; i < MESSAGES_PHASE1.length; i++) {
             const message = MESSAGES_PHASE1[i];
@@ -241,11 +235,7 @@ class WhatsAppChat {
                 continue;
             }
 
-            // Mostrar status dinâmico (digitando ou gravando)
-            const statusText = message.type === 'audio' ? 'gravando áudio...' : 'digitando...';
-            this.updateStatus(statusText);
-
-            // Mostrar "digitando..." visual
+            // Mostrar "digitando..."
             this.showTyping();
 
             // Delay humanizado
@@ -254,12 +244,10 @@ class WhatsAppChat {
 
             // Esconder "digitando..." e exibir mensagem
             this.hideTyping();
-            this.updateStatus('online'); // Voltar para online
             await this.delay(200);
 
             this.addMessage(message);
             this.scrollToBottom();
-            this.playSoundAndVibrate(); // Som e vibração
 
             // Se for áudio com autoplay
             if (message.type === 'audio' && message.autoplay) {
@@ -290,21 +278,16 @@ class WhatsAppChat {
         for (let i = 0; i < MESSAGES_PHASE2.length; i++) {
             const message = MESSAGES_PHASE2[i];
 
-            const statusText = message.type === 'audio' ? 'gravando áudio...' : 'digitando...';
-            this.updateStatus(statusText);
-
             this.showTyping();
 
             let typingDelay = message.delay || this.getHumanDelay(message.content || '');
             await this.delay(typingDelay);
 
             this.hideTyping();
-            this.updateStatus('online');
             await this.delay(200);
 
             this.addMessage(message);
             this.scrollToBottom();
-            this.playSoundAndVibrate();
 
             if (message.type === 'audio' && message.autoplay) {
                 await this.delay(500);
@@ -312,31 +295,6 @@ class WhatsAppChat {
             }
 
             this.lastMessageCount++;
-        }
-    }
-
-    updateStatus(text) {
-        const statusEl = document.querySelector('.online-status');
-        if (statusEl) {
-            statusEl.textContent = text;
-            statusEl.style.color = text === 'online' ? '#00a884' : '#00a884'; // Manter verde
-        }
-    }
-
-    playSoundAndVibrate() {
-        // Tocar som
-        const audio = new Audio("data:audio/mp3;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAG84PDK7zXV2+a5/3Xvpt/7///7//9///7/9/+/3//3//3//3//3//3//3//3//7//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3//3////");
-        audio.volume = 0.5;
-        audio.play().catch(e => console.log('Audio blocked', e));
-
-        // Vibrar
-        if (navigator.vibrate) {
-            navigator.vibrate(200);
-        }
-
-        // Título da aba
-        if (document.hidden) {
-            document.title = '(1) Nova mensagem de Andre...';
         }
     }
 
@@ -547,7 +505,9 @@ class WhatsAppChat {
         return `
             <div class="message-content">
                 <p>Chave pix (CPF) : ${MESSAGES_CONFIG.pixCPF}<br>
+<br>
 Valor: ${MESSAGES_CONFIG.valor}<br>
+<br>
 * Nome: ${MESSAGES_CONFIG.pixNome} *</p>
                 <span class="message-time">${time}</span>
             </div>
@@ -810,3 +770,4 @@ document.addEventListener('DOMContentLoaded', () => {
     new WhatsAppChat();
     console.log('📱 WhatsApp Clone com Firebase carregado!');
 });
+
