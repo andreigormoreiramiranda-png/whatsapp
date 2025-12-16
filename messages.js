@@ -16,10 +16,11 @@ const MESSAGES_CONFIG = {
     delayPerChar: 50,  // 50ms por caractere
 
     // Chaves PIX para copiar
-    pixCNPJ: "146.624.329-52",
+    pixCPF: "146.624.329-52",
+    pixEmail: "",
 
     // Nome do titular PIX
-    pixNome: "Andre Igor Moreira Miranda (PIX do meu Marido)",
+    pixNome: "Andre Igor Moreira Miranda",
 
     // Valor
     valor: "10,00"
@@ -32,22 +33,22 @@ const PDF_FILES = [
     {
         name: "Frente e verso para o potinho.pdf",
         size: "1,4 MB",
-        file: "pdfs/Frente e verso para o potinho.pdf"
+        file: "pdfs/frente-verso-potinho.pdf"
     },
     {
         name: "365 Versiculos Biblicos.pdf",
         size: "2,7 MB",
-        file: "pdfs/365 Versiculos Biblicos.pdf"
+        file: "pdfs/365-versiculos-biblicos.pdf"
     },
     {
         name: "VERSICULOS COLORIDOS.pdf",
         size: "3,4 MB",
-        file: "pdfs/VERSICULOS COLORIDOS.pdf"
+        file: "pdfs/versiculos-coloridos.pdf"
     },
     {
         name: "Caixinha-de-Promessas.pdf",
         size: "135 KB",
-        file: "pdfs/Caixinha-de-Promessas.pdf"
+        file: "pdfs/caixinha-de-promessas.pdf"
     }
 ];
 
@@ -173,12 +174,7 @@ Deixe Ele guiar você sobre quanto deseja enviar: 10, 15, 20 ou 25 reais — o v
     },
     {
         type: "pix-copy",
-        pixType: "cnpj",
-        delay: 1200
-    },
-    {
-        type: "pix-copy",
-        pixType: "email",
+        pixType: "cpf",
         delay: 1200
     },
     {
@@ -205,4 +201,3 @@ const WAVEFORM_DATA = [
     60, 45, 80, 30, 55, 70, 40, 65, 50, 35,
     75, 45, 60, 30, 55, 40, 70, 50, 65, 45
 ];
-
