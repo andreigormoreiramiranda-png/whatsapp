@@ -34,8 +34,6 @@ body {
     /* Prevent body scroll */
     position: fixed;
     /* Lock body for iOS */
-    touch-action: none;
-    /* Disable default touch actions on body */
 }
 
 body {
